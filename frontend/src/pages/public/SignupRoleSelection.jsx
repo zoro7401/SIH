@@ -13,7 +13,7 @@ const ROLES = [
 
 export default function SignupRoleSelection() {
   const navigate = useNavigate();
-  const { register, loginWithGoogle, loading, error: authError } = useAuth();
+  const { register, loading, error: authError } = useAuth();
 
   const [selectedRole, setSelectedRole] = useState("");
   const [formData, setFormData] = useState({
@@ -110,20 +110,6 @@ export default function SignupRoleSelection() {
 
   const errorMessage = localError || authError;
 
-  const handleGoogleSignup = async () => {
-    setLocalError("");
-    if (!selectedRole) {
-      setLocalError("Please select a role before continuing with Google");
-      return;
-    }
-
-    try {
-      await loginWithGoogle(selectedRole);
-    } catch (err) {
-      setLocalError(err.message || "Google sign up failed. Please try again.");
-    }
-  };
-
   return (
     <AmbientBrandGlow className="min-h-screen text-charcoal flex flex-col antialiased">
       <main className="flex-grow flex items-center justify-center py-16 px-4">
@@ -146,7 +132,7 @@ export default function SignupRoleSelection() {
           <form onSubmit={handleSubmit} className="space-y-8">
             {/*Role Selection*/}
             <div>
-              <label className="block text-xs uppercase tracking-wide text-muted mb-3">Select your role</label>
+              <label className="block text-xs uppercase tracking-wide text-muted font-bold mb-3">Select your role</label>
               <div className="grid grid-cols-3 gap-3">
                 {ROLES.map((role) => {
                   const Icon = role.icon;
@@ -169,7 +155,7 @@ export default function SignupRoleSelection() {
             {/*Account Details*/}
             <div className="space-y-5">
               <div>
-                <label className="block text-xs uppercase tracking-wide text-muted mb-1.5" htmlFor="fullname">
+                <label className="block text-xs uppercase tracking-wide text-muted font-bold mb-1.5" htmlFor="fullname">
                   Full Name
                 </label>
                 <input
@@ -185,7 +171,7 @@ export default function SignupRoleSelection() {
                 />
               </div>
               <div>
-                <label className="block text-xs uppercase tracking-wide text-muted mb-1.5" htmlFor="email">
+                <label className="block text-xs uppercase tracking-wide text-muted font-bold mb-1.5" htmlFor="email">
                   Work Email
                 </label>
                 <input
@@ -201,7 +187,7 @@ export default function SignupRoleSelection() {
                 />
               </div>
               <div>
-                <label className="block text-xs uppercase tracking-wide text-muted mb-1.5" htmlFor="password">
+                <label className="block text-xs uppercase tracking-wide text-muted font-bold mb-1.5" htmlFor="password">
                   Password
                 </label>
                 <input
@@ -221,16 +207,7 @@ export default function SignupRoleSelection() {
 
             {/*Submit*/}
             <button
-              className="w-full flex items-center justify-center gap-2 border border-hairline bg-white text-charcoal text-sm font-medium rounded-md py-2.5 px-4 hover:border-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              type="button"
-              onClick={handleGoogleSignup}
-              disabled={isSubmitting || loading}
-            >
-              Continue with Google
-            </button>
-
-            <button
-              className="w-full flex items-center justify-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-4 hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mx-auto flex items-center justify-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-10 hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
               disabled={isSubmitting || loading}
             >

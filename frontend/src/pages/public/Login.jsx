@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { getPostLoginRedirect } from "../../utils/roleRedirect";
-import { EnvelopeSimple, LockSimple, ArrowClockwise, WarningCircle } from "@phosphor-icons/react";
+import { ArrowClockwise, WarningCircle } from "@phosphor-icons/react";
 import AmbientBrandGlow from "../../components/ui/ambient-brand-glow";
 
 export default function Login() {
@@ -101,11 +101,8 @@ export default function Login() {
                 Email address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <EnvelopeSimple size={17} className="text-muted" />
-                </div>
                 <input
-                  className="block w-full pl-10 pr-3 py-2.5 border border-hairline rounded-md bg-white text-charcoal focus:ring-0 focus:border-ink placeholder:text-muted text-sm outline-none transition-colors"
+                  className="block w-full px-3 py-2.5 border border-hairline rounded-md bg-white text-charcoal focus:ring-0 focus:border-ink placeholder:text-muted text-sm outline-none transition-colors"
                   id="email"
                   name="email"
                   type="email"
@@ -124,11 +121,8 @@ export default function Login() {
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <LockSimple size={17} className="text-muted" />
-                </div>
                 <input
-                  className="block w-full pl-10 pr-3 py-2.5 border border-hairline rounded-md bg-white text-charcoal focus:ring-0 focus:border-ink placeholder:text-muted text-sm outline-none transition-colors"
+                  className="block w-full px-3 py-2.5 border border-hairline rounded-md bg-white text-charcoal focus:ring-0 focus:border-ink placeholder:text-muted text-sm outline-none transition-colors"
                   id="password"
                   name="password"
                   type="password"
@@ -192,7 +186,7 @@ export default function Login() {
           {/* Sign up */}
           <div className="mt-6 text-center">
             <a
-              className="text-xs uppercase tracking-wide text-ink hover:text-muted transition-colors"
+              className="inline-block px-5 py-2 rounded-full border border-ink text-xs uppercase tracking-wide text-ink hover:bg-bone transition-colors"
               href="/signup"
             >
               REGISTER
