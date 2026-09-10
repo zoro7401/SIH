@@ -67,8 +67,14 @@ export default function DashboardLayout({
 
   return (
     <AmbientBrandGlow className="text-charcoal min-h-screen">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-ink focus:text-white focus:text-sm focus:font-medium focus:rounded-md focus:py-2.5 focus:px-4"
+      >
+        Skip to content
+      </a>
       {!hideSidebar && <Sidebar navItems={navItems} footerNavItems={footerNavItems} title={title} subtitle={subtitle} />}
-      <main className={hideSidebar ? "px-4 md:px-10 py-10" : "md:ml-56 px-4 md:px-10 py-10"}>
+      <main id="main-content" className={hideSidebar ? "px-4 md:px-10 py-10" : "md:ml-56 px-4 md:px-10 py-10"}>
         <div className={`max-w-5xl mx-auto ${contentClassName}`}>
           {!hideSidebar && isStudentPortal && <TopRightLinks />}
           {children}

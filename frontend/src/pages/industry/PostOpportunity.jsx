@@ -281,7 +281,7 @@ export default function PostOpportunity() {
           <button
             type="submit"
             disabled={submitting || posted}
-            className="px-6 py-2.5 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
+            className="px-6 py-2.5 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
           >
             {posted ? "Published ✓" : submitting ? "Publishing…" : "Publish Opportunity"}
             <PaperPlaneTilt size={16} />

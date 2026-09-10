@@ -202,7 +202,7 @@ export default function SkillTests() {
                 type="button"
                 onClick={generateAnalysis}
                 disabled={analysisLoading}
-                className="w-full bg-ink text-white text-sm px-3 py-2 rounded-md hover:bg-[#333333] transition-colors disabled:opacity-60"
+                className="w-full bg-ink text-white text-sm px-3 py-2 rounded-md hover:bg-ink-hover transition-colors disabled:opacity-60"
               >
                 {analysisLoading ? "Generating…" : "Generate AI Analysis"}
               </button>

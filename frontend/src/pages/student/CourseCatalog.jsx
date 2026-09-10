@@ -161,7 +161,7 @@ export default function CourseCatalog() {
             <button
               onClick={() => setAppliedFilters(pendingFilters)}
               disabled={!hasPendingChanges}
-              className="w-full mt-6 bg-ink text-white text-sm py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
+              className="w-full mt-6 bg-ink text-white text-sm py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100"
             >
               Apply
             </button>
@@ -219,7 +219,7 @@ export default function CourseCatalog() {
                       <button
                         onClick={() => handleEnroll(course.id)}
                         disabled={enrolled || enrollingId === course.id}
-                        className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-60"
+                        className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-60"
                       >
                         {enrolled ? "Enrolled ✓" : enrollingId === course.id ? "Enrolling…" : "Enroll"}
                       </button>

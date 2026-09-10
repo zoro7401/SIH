@@ -193,7 +193,7 @@ export default function AICareerAdvisor() {
             <button
               type="submit"
               disabled={sending || !input.trim()}
-              className="shrink-0 bg-ink text-white px-4 py-2.5 rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-60 flex items-center gap-2"
+              className="shrink-0 bg-ink text-white px-4 py-2.5 rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-60 flex items-center gap-2"
             >
               <PaperPlaneRight size={16} />
               Send

@@ -100,7 +100,7 @@ export default function SkillAssessment() {
             <div className="flex flex-col gap-3">
               <button
                 onClick={() => setShowRetakeWarning(true)}
-                className="w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all cursor-pointer"
+                className="w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all cursor-pointer"
               >
                 Retake Assessment
               </button>
@@ -125,7 +125,7 @@ export default function SkillAssessment() {
               <button
                 type="button"
                 onClick={() => setForceRetake(true)}
-                className="w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all cursor-pointer"
+                className="w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all cursor-pointer"
               >
                 Continue and Retake Test
               </button>
@@ -246,7 +246,7 @@ export default function SkillAssessment() {
               type="button"
               onClick={startSkillTests}
               disabled={!agreedToRules || cameraAccess !== "granted"}
-              className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Agree and Start Test
             </button>
@@ -306,7 +306,7 @@ export default function SkillAssessment() {
             type="button"
             onClick={beginSkillTests}
             disabled={selectedSkills.length === 0}
-            className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Start Skill Tests
           </button>

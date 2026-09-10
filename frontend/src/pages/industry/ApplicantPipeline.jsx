@@ -98,7 +98,7 @@ export default function ApplicantPipeline() {
                   key={stage}
                   onClick={() => toggleStage(stage)}
                   className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 transition-colors ${
-                    isCollapsed ? "border-hairline bg-white hover:bg-bone" : "border-ink bg-ink text-white hover:bg-[#333333]"
+                    isCollapsed ? "border-hairline bg-white hover:bg-bone" : "border-ink bg-ink text-white hover:bg-ink-hover"
                   }`}
                 >
                   <span className="text-sm font-medium">{stage}</span>

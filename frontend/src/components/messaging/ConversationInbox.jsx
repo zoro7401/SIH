@@ -282,7 +282,7 @@ export default function ConversationInbox({ navItems, footerNavItems, emptyState
                     <button
                       onClick={handleSend}
                       disabled={sending || !draft.trim()}
-                      className="bg-ink text-white px-4 md:px-5 py-2.5 rounded-md text-sm flex items-center gap-1.5 hover:bg-[#333333] active:scale-[0.98] transition-all mb-0.5 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+                      className="bg-ink text-white px-4 md:px-5 py-2.5 rounded-md text-sm flex items-center gap-1.5 hover:bg-ink-hover active:scale-[0.98] transition-all mb-0.5 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
                       aria-label="Send message"
                     >
                       <span className="hidden sm:inline">{sending ? "Sending…" : "Send"}</span>

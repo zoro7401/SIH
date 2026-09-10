@@ -207,7 +207,7 @@ export default function SignupRoleSelection() {
 
             {/*Submit*/}
             <button
-              className="mx-auto flex items-center justify-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-10 hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mx-auto flex items-center justify-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-10 hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               type="submit"
               disabled={isSubmitting || loading}
             >

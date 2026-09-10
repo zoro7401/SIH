@@ -102,7 +102,7 @@ export default function StudentDashboard() {
             <button
               type="button"
               onClick={() => startAssessment(true)}
-              className="border border-[#777777] text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] transition-colors"
+              className="border border-[#777777] text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover transition-colors"
             >
               Start from beginning
             </button>
@@ -128,7 +128,7 @@ export default function StudentDashboard() {
             <button
               type="button"
               onClick={() => startAssessment(true)}
-              className="bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] transition-colors self-start sm:self-auto"
+              className="bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover transition-colors self-start sm:self-auto"
             >
               Retake the test
             </button>
@@ -201,7 +201,7 @@ export default function StudentDashboard() {
               <button
                 type="button"
                 onClick={() => navigate("/skill-assessment?retake=true&start=beginning")}
-                className="bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-[#333333] transition-colors"
+                className="bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-ink-hover transition-colors"
               >
                 Retake assessment
               </button>
@@ -254,7 +254,7 @@ export default function StudentDashboard() {
                 <button
                   type="button"
                   onClick={() => navigate("/skill-assessment")}
-                  className="bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] transition-colors"
+                  className="bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover transition-colors"
                 >
                   Take a Skill Assessment
                 </button>
@@ -447,7 +447,7 @@ export default function StudentDashboard() {
             </div>
             <Link
               to="/courses"
-              className="mt-6 w-full text-center bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all"
+              className="mt-6 w-full text-center bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all"
             >
               Browse Full Catalog
             </Link>

@@ -107,7 +107,7 @@ export default function DigitalPortfolioEdit() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex-1 md:flex-none py-2 px-6 rounded-md bg-ink text-white text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+            className="flex-1 md:flex-none py-2 px-6 rounded-md bg-ink text-white text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
           >
             <FloppyDisk size={16} />
             {saving ? "Saving…" : "Save Changes"}

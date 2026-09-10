@@ -98,7 +98,7 @@ export default function MessagesBar() {
         onClick={() => setOpen((v) => !v)}
         aria-label="Messages"
         title="Messages"
-        className="relative flex items-center gap-3 bg-ink pl-3 pr-3 py-2 rounded-full shadow-lift hover:bg-[#333333] active:scale-[0.97] transition-all"
+        className="relative flex items-center gap-3 bg-ink pl-3 pr-3 py-2 rounded-full shadow-lift hover:bg-ink-hover active:scale-[0.97] transition-all"
       >
         {stackAvatars.length > 0 && (
           <span className="flex items-center gap-1.5">

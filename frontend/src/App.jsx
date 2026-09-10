@@ -12,6 +12,7 @@ import Landing from "./pages/public/Landing.jsx";
 import Login from "./pages/public/Login.jsx";
 import SignupRoleSelection from "./pages/public/SignupRoleSelection.jsx";
 import PortalPending from "./pages/public/PortalPending.jsx";
+import NotFound from "./pages/public/NotFound.jsx";
 
 import StudentDashboard from "./pages/student/StudentDashboard.jsx";
 import CourseCatalog from "./pages/student/CourseCatalog.jsx";
@@ -458,6 +459,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

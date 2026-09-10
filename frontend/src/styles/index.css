@@ -68,3 +68,14 @@ body {
 .ambient-blob {
   animation: drift 24s ease-in-out infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .ambient-blob {
+    animation: none;
+  }
+}

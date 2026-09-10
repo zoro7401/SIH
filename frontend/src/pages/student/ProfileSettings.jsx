@@ -407,7 +407,7 @@ export default function ProfileSettings() {
           <button
             type="submit"
             disabled={pwSaving || !pwForm.currentPassword || !pwForm.newPassword}
-            className="self-start bg-ink text-white px-5 py-2.5 rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+            className="self-start bg-ink text-white px-5 py-2.5 rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
           >
             {pwSaving ? "Updating…" : "Update Password"}
           </button>

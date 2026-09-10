@@ -9,6 +9,10 @@ export default {
         canvas: "#FBFBFA",
         bone: "#F7F6F3",
         ink: "#111111",
+        /* Hover state for solid bg-ink buttons — was hardcoded inline as
+           hover:bg-[#333333] across 40+ files; named here so a future
+           rebrand is a single edit instead of a sitewide find/replace. */
+        "ink-hover": "#333333",
         charcoal: "#2F3437",
         muted: "#787774",
         hairline: "#EAEAEA",

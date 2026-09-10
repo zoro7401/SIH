@@ -33,7 +33,7 @@ export default function PortalPending() {
           </p>
           <button
             onClick={handleLogout}
-            className="w-full flex justify-center py-2.5 px-4 rounded-md text-sm text-white bg-ink hover:bg-[#333333] active:scale-[0.98] transition-all"
+            className="w-full flex justify-center py-2.5 px-4 rounded-md text-sm text-white bg-ink hover:bg-ink-hover active:scale-[0.98] transition-all"
           >
             Logout
           </button>

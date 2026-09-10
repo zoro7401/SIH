@@ -186,7 +186,7 @@ export default function CompanyOnboarding() {
           <button
             type="submit"
             disabled={saving}
-            className="w-full flex items-center justify-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-4 hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-4 hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? (
               <>

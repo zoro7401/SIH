@@ -135,7 +135,7 @@ export default function LearningPathStudy() {
                 type="button"
                 onClick={() => generatePlan("roadmap")}
                 disabled={generating}
-                className="bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] transition-colors disabled:opacity-60"
+                className="bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover transition-colors disabled:opacity-60"
               >
                 {generating ? "Generating…" : aiPlan ? "Regenerate roadmap" : "Generate roadmap"}
               </button>

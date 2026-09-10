@@ -70,7 +70,7 @@ export default function SkillPrograms() {
         </div>
         <button
           onClick={() => setShowForm((v) => !v)}
-          className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2 self-start md:self-auto"
+          className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2 self-start md:self-auto"
         >
           <Plus size={16} />
           {showForm ? "Cancel" : "Create Program"}
@@ -143,7 +143,7 @@ export default function SkillPrograms() {
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
+              className="px-6 py-2.5 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
             >
               {submitting ? "Publishing…" : "Publish Program"}
               <ArrowRight size={16} />

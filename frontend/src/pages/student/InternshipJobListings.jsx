@@ -260,7 +260,7 @@ export default function InternshipJobListings() {
                       >
                         <BookmarkSimple size={16} weight={savedIds.has(job.id) ? "fill" : "regular"} />
                       </button>
-                      <span className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-[#333333] transition-colors">View Details</span>
+                      <span className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-ink-hover transition-colors">View Details</span>
                     </div>
                   </div>
                 </Link>

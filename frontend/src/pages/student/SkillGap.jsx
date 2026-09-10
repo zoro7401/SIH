@@ -72,7 +72,7 @@ export default function SkillGap() {
               </p>
               <Link
                 to="/career-path"
-                className="mt-6 w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all"
+                className="mt-6 w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all"
               >
                 View Career Path
               </Link>

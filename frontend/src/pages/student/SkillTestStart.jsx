@@ -113,7 +113,7 @@ export default function SkillTestStart() {
             </button>
             {isLastQuestion ? (
               <button
-                className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
+                className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
                 type="button"
                 onClick={handleSubmit}
                 disabled={submitting}
@@ -123,7 +123,7 @@ export default function SkillTestStart() {
               </button>
             ) : (
               <button
-                className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2"
+                className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2"
                 type="button"
                 onClick={handleNext}
               >

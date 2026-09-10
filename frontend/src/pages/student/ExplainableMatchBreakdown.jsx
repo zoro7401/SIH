@@ -115,7 +115,7 @@ export default function ExplainableMatchBreakdown() {
               {saved ? "Saved ✓" : saving ? "Saving…" : "Save for Later"}
             </button>
             <button
-              className="bg-ink text-white text-sm px-6 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-60"
+              className="bg-ink text-white text-sm px-6 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-60"
               onClick={handleApply}
               disabled={applied || applying}
             >

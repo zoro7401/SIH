@@ -109,7 +109,7 @@ export default function IndustryDashboard() {
             </div>
             <Link
               to="/industry/opportunities/create"
-              className="mt-6 w-full block text-center bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all"
+              className="mt-6 w-full block text-center bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all"
             >
               Post New Opportunity
             </Link>

@@ -73,7 +73,7 @@ export default function SkillProfileGapReport() {
         </div>
         <button
           onClick={() => navigate("/skill-assessment")}
-          className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all self-start md:self-auto"
+          className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all self-start md:self-auto"
         >
           Retake Assessment
         </button>

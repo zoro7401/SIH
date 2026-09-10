@@ -135,7 +135,7 @@ export default function InternshipJobDetail() {
                 <button
                   onClick={handleApply}
                   disabled={applied || applying}
-                  className="flex-1 bg-ink text-white px-6 py-2.5 rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-60"
+                  className="flex-1 bg-ink text-white px-6 py-2.5 rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-60"
                 >
                   {applied ? "Applied ✓" : applying ? "Applying…" : "Apply Now"}
                 </button>

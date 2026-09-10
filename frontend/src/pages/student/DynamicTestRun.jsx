@@ -351,7 +351,7 @@ export default function DynamicTestRun() {
               </button>
               {isLastQuestion ? (
                 <button
-                  className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
+                  className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
                   type="button"
                   onClick={handleSubmitClick}
                   disabled={submitting}
@@ -360,7 +360,7 @@ export default function DynamicTestRun() {
                 </button>
               ) : (
                 <button
-                  className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2"
+                  className="px-4 py-2 bg-ink text-white rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2"
                   type="button"
                   onClick={handleNext}
                 >
@@ -424,7 +424,7 @@ export default function DynamicTestRun() {
                 type="button"
                 onClick={() => finalizeSubmit(answers)}
                 disabled={submitting}
-                className="bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-[#333333] transition-colors disabled:opacity-60"
+                className="bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-ink-hover transition-colors disabled:opacity-60"
               >
                 {submitting ? "Submitting…" : "Submit Final Answers"}
               </button>
@@ -484,7 +484,7 @@ export default function DynamicTestRun() {
                 proctoring.dismissWarning();
                 proctoring.resumeFullscreen();
               }}
-              className="bg-ink text-white text-sm px-5 py-2.5 rounded-md hover:bg-[#333333] transition-colors"
+              className="bg-ink text-white text-sm px-5 py-2.5 rounded-md hover:bg-ink-hover transition-colors"
             >
               Return to Test
             </button>

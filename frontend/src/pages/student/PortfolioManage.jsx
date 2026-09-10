@@ -99,7 +99,7 @@ function ProjectForm({ initial, onSave, onCancel }) {
         <button type="button" onClick={onCancel} className="px-4 py-2 text-sm border border-hairline rounded-md hover:bg-white transition-colors">
           Cancel
         </button>
-        <button type="submit" disabled={saving} className="px-4 py-2 text-sm bg-ink text-white rounded-md hover:bg-[#333333] transition-colors disabled:opacity-60">
+        <button type="submit" disabled={saving} className="px-4 py-2 text-sm bg-ink text-white rounded-md hover:bg-ink-hover transition-colors disabled:opacity-60">
           {saving ? "Saving…" : "Save"}
         </button>
       </div>
@@ -200,7 +200,7 @@ function CertificationForm({ initial, onSave, onCancel }) {
         <button type="button" onClick={onCancel} className="px-4 py-2 text-sm border border-hairline rounded-md hover:bg-white transition-colors">
           Cancel
         </button>
-        <button type="submit" disabled={saving} className="px-4 py-2 text-sm bg-ink text-white rounded-md hover:bg-[#333333] transition-colors disabled:opacity-60">
+        <button type="submit" disabled={saving} className="px-4 py-2 text-sm bg-ink text-white rounded-md hover:bg-ink-hover transition-colors disabled:opacity-60">
           {saving ? "Saving…" : "Save"}
         </button>
       </div>
@@ -344,7 +344,7 @@ function InternshipForm({ initial, onSave, onCancel }) {
         <button type="button" onClick={onCancel} className="px-4 py-2 text-sm border border-hairline rounded-md hover:bg-white transition-colors">
           Cancel
         </button>
-        <button type="submit" disabled={saving} className="px-4 py-2 text-sm bg-ink text-white rounded-md hover:bg-[#333333] transition-colors disabled:opacity-60">
+        <button type="submit" disabled={saving} className="px-4 py-2 text-sm bg-ink text-white rounded-md hover:bg-ink-hover transition-colors disabled:opacity-60">
           {saving ? "Saving…" : "Save"}
         </button>
       </div>

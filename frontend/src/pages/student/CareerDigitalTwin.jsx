@@ -99,7 +99,7 @@ export default function CareerDigitalTwin() {
             <span className="font-medium text-ink">Recommended action:</span> Start your learning paths to move toward the projected readiness.
           </span>
         </p>
-        <Link to="/learning-paths" className="bg-ink text-white text-sm px-6 py-2.5 rounded-md whitespace-nowrap hover:bg-[#333333] active:scale-[0.98] transition-all">
+        <Link to="/learning-paths" className="bg-ink text-white text-sm px-6 py-2.5 rounded-md whitespace-nowrap hover:bg-ink-hover active:scale-[0.98] transition-all">
           View Learning Paths
         </Link>
       </section>

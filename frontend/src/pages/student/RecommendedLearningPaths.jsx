@@ -86,7 +86,7 @@ export default function RecommendedLearningPaths() {
                   <div className="p-6 border-t border-hairline mt-auto">
                     <button
                       onClick={() => navigate(`/learning-paths/study?skill=${encodeURIComponent(path.skillName)}`)}
-                      className="block text-center w-full bg-ink text-white rounded-md text-sm py-2.5 hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-60"
+                      className="block text-center w-full bg-ink text-white rounded-md text-sm py-2.5 hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-60"
                     >
                       Study
                     </button>

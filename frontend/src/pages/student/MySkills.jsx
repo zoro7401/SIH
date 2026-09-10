@@ -44,7 +44,7 @@ export default function MySkills() {
           </Link>
           <Link
             to="/skill-gap"
-            className="bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all"
+            className="bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all"
           >
             View Skill Gap
           </Link>

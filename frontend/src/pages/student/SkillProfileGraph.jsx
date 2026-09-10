@@ -68,7 +68,7 @@ export default function SkillProfileGraph() {
             </p>
             <Link
               to="/proof-of-skill"
-              className="block text-center w-full bg-ink text-white hover:bg-[#333333] active:scale-[0.98] transition-all py-2.5 px-4 rounded-md text-sm"
+              className="block text-center w-full bg-ink text-white hover:bg-ink-hover active:scale-[0.98] transition-all py-2.5 px-4 rounded-md text-sm"
             >
               Begin Challenge
             </Link>

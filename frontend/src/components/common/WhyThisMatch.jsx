@@ -63,7 +63,7 @@ export default function WhyThisMatch({ match, compact = false, action }) {
         </p>
         <Link
           to={action?.to ?? "/learning-paths"}
-          className="bg-ink text-white text-sm px-4 py-2 rounded-md whitespace-nowrap hover:bg-[#333333] active:scale-[0.98] transition-all"
+          className="bg-ink text-white text-sm px-4 py-2 rounded-md whitespace-nowrap hover:bg-ink-hover active:scale-[0.98] transition-all"
         >
           {action?.label ?? "Start Learning Path"}
         </Link>

@@ -150,7 +150,7 @@ export default function CareerPath() {
 
             <Link
               to="/skill-tests"
-              className="mt-6 w-full flex items-center justify-center gap-2 bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all"
+              className="mt-6 w-full flex items-center justify-center gap-2 bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all"
             >
               Close a Skill Gap
               <ArrowRight size={16} />

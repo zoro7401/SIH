@@ -143,7 +143,7 @@ export default function CourseDetail() {
                 <button
                   onClick={handleEnroll}
                   disabled={enrolled || enrolling}
-                  className="w-full bg-ink text-white text-sm py-2.5 px-4 rounded-md flex justify-center items-center gap-2 hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-60"
+                  className="w-full bg-ink text-white text-sm py-2.5 px-4 rounded-md flex justify-center items-center gap-2 hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-60"
                 >
                   <CheckCircle size={16} />
                   {enrolled ? "Enrolled ✓" : enrolling ? "Enrolling…" : "Enroll in Course"}

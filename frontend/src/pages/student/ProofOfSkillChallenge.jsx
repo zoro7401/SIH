@@ -64,7 +64,7 @@ export default function ProofOfSkillChallenge() {
               : " A score of 75% or higher is required to verify this skill."}
           </p>
           <div className="flex gap-3 mt-4">
-            <Link to="/portfolio" className="bg-ink text-white text-sm px-6 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all">
+            <Link to="/portfolio" className="bg-ink text-white text-sm px-6 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all">
               View Skill Passport
             </Link>
             {!result.passing && (
@@ -139,7 +139,7 @@ export default function ProofOfSkillChallenge() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="bg-ink text-white text-sm px-6 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
+            className="bg-ink text-white text-sm px-6 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2 disabled:opacity-60"
           >
             {submitting ? "Submitting…" : "Submit for Review"}
             <PaperPlaneTilt size={16} />

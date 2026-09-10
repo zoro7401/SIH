@@ -49,7 +49,7 @@ export default function ManageOpportunities() {
         </div>
         <Link
           to="/industry/opportunities/create"
-          className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-[#333333] active:scale-[0.98] transition-all flex items-center gap-2 self-start md:self-auto"
+          className="bg-ink text-white px-4 py-2 rounded-md text-sm hover:bg-ink-hover active:scale-[0.98] transition-all flex items-center gap-2 self-start md:self-auto"
         >
           <PlusCircle size={16} />
           Post Opportunity

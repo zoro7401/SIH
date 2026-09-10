@@ -108,7 +108,7 @@ export default function DynamicTestSummary() {
               type="button"
               onClick={generateAnalysis}
               disabled={analysisLoading}
-              className="w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-[#333333] active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+              className="w-full bg-ink text-white text-sm px-4 py-2.5 rounded-md hover:bg-ink-hover active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2"
             >
               {analysisLoading ? <CircleNotch size={16} className="animate-spin" /> : <Sparkle size={16} />}
               {analysisLoading ? "Generating AI Analysis…" : "Generate AI Analysis"}

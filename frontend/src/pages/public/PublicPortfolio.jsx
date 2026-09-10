@@ -92,7 +92,7 @@ export default function PublicPortfolio() {
                 <div className="flex flex-wrap items-center gap-3">
                   <a
                     href="#projects"
-                    className="flex items-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-6 hover:bg-[#333333] active:scale-[0.98] transition-all"
+                    className="flex items-center gap-2 bg-ink text-white text-sm font-medium rounded-md py-2.5 px-6 hover:bg-ink-hover active:scale-[0.98] transition-all"
                   >
                     View projects
                     <ArrowRight size={15} weight="bold" />

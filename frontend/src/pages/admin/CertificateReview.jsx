@@ -79,7 +79,7 @@ export default function CertificateReview() {
                 <button
                   onClick={() => handleDecision(c.id, "verified")}
                   disabled={decidingId === c.id}
-                  className="flex-1 md:flex-none flex items-center justify-center gap-1.5 bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-[#333333] transition-colors disabled:opacity-50"
+                  className="flex-1 md:flex-none flex items-center justify-center gap-1.5 bg-ink text-white text-sm px-4 py-2 rounded-md hover:bg-ink-hover transition-colors disabled:opacity-50"
                 >
                   <CheckCircle size={16} />
                   {decidingId === c.id ? "Saving…" : "Approve"}
