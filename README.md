@@ -37,7 +37,7 @@ npm run dev             # http://localhost:5000
 ```
 
 Run the SQL files in `backend/src/database/` against your Supabase project, in order:
-`schema.sql` → `assessments_schema.sql` → `full_migration_schema.sql` → `settings_schema.sql` → `onboarding_schema.sql`.
+`schema.sql` → `assessments_schema.sql` → `full_migration_schema.sql` → `settings_schema.sql` → `onboarding_schema.sql` → `onboarding_interest_types_migration.sql`.
 
 ### Frontend
 

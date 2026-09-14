@@ -25,6 +25,33 @@ const INTEREST_OPTIONS = ["Internship", "Full-time job", "Apprenticeship", "Lear
 
 const HIGHLIGHT_MAX = 120;
 
+// Curated subset of the canonical assessable-skill vocabulary per field, so
+// the confident-skills dropdown (Q2) starts from something relevant instead
+// of the full 30-skill list. Free typing still covers anything not listed
+// here or outside a student's field entirely.
+const FIELD_SKILLS = {
+  "Computer Science / IT": [
+    "JavaScript",
+    "Python Programming",
+    "React",
+    "SQL / Databases",
+    "Data Structures & Algorithms",
+    "Git & Version Control",
+    "TypeScript",
+    "Java / C++ / C#",
+    "Node.js",
+    "REST APIs / GraphQL",
+  ],
+  "Electronics & Communication": ["Python Programming", "Problem Solving", "Statistics", "Excel", "Teamwork", "Communication"],
+  "Electrical Engineering": ["Python Programming", "Problem Solving", "Statistics", "Excel", "Teamwork", "Communication"],
+  "Mechanical Engineering": ["Problem Solving", "Statistics", "Excel", "Teamwork", "Time Management", "Communication"],
+  "Civil Engineering": ["Problem Solving", "Statistics", "Excel", "Teamwork", "Time Management", "Communication"],
+  "Chemical Engineering": ["Problem Solving", "Statistics", "Excel", "Teamwork", "Time Management", "Communication"],
+  Biotechnology: ["Statistics", "Data Visualization (Tableau)", "Python Programming", "Excel", "Communication"],
+  Commerce: ["Excel", "Statistics", "Power BI", "Communication", "Teamwork", "Time Management"],
+  "Business / Management": ["Communication", "Teamwork", "Time Management", "Excel", "Power BI", "Problem Solving"],
+};
+
 // Shown once, right after a student account is created — a short qualitative
 // self-report (not the scored skill assessment quiz) that seeds the
 // portfolio card with a field of study, confident/struggle skill tags, and
@@ -39,7 +66,7 @@ export default function StudentOnboarding() {
   const [fieldOther, setFieldOther] = useState("");
   const [confidentSkills, setConfidentSkills] = useState([]);
   const [struggleSkills, setStruggleSkills] = useState([]);
-  const [interestType, setInterestType] = useState("");
+  const [interestTypes, setInterestTypes] = useState([]);
   const [highlight, setHighlight] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -51,6 +78,11 @@ export default function StudentOnboarding() {
   }, []);
 
   const fieldOfStudy = fieldChoice === "Other" ? fieldOther.trim() : fieldChoice;
+  const fieldSkillOptions = FIELD_SKILLS[fieldChoice] || [];
+
+  const toggleInterestType = (opt) => {
+    setInterestTypes((prev) => (prev.includes(opt) ? prev.filter((t) => t !== opt) : [...prev, opt]));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,8 +100,8 @@ export default function StudentOnboarding() {
       setError("Pick at least one area you'd like to improve");
       return;
     }
-    if (!interestType) {
-      setError("Please select the kind of opportunity you're interested in");
+    if (interestTypes.length === 0) {
+      setError("Please select at least one kind of opportunity you're interested in");
       return;
     }
 
@@ -79,7 +111,7 @@ export default function StudentOnboarding() {
         fieldOfStudy,
         confidentSkills,
         struggleSkills,
-        interestType,
+        interestTypes,
         highlight: highlight.trim(),
       });
       navigate("/dashboard", { replace: true });
@@ -146,7 +178,13 @@ export default function StudentOnboarding() {
             <label className="block text-xs uppercase tracking-wide text-muted font-bold mb-1.5">
               2. Which 2–3 skills are you most confident in right now?
             </label>
-            <SkillTagInput value={confidentSkills} onChange={setConfidentSkills} suggestions={skillSuggestions} />
+            <SkillTagInput
+              value={confidentSkills}
+              onChange={setConfidentSkills}
+              suggestions={skillSuggestions}
+              dropdownOptions={fieldSkillOptions}
+              dropdownLabel={fieldChoice ? `Common skills for ${fieldChoice}` : "Select a field above to see suggestions"}
+            />
           </div>
 
           {/* Q3 — struggle skills */}
@@ -160,17 +198,18 @@ export default function StudentOnboarding() {
           {/* Q4 — opportunity type */}
           <div>
             <label className="block text-xs uppercase tracking-wide text-muted font-bold mb-2">
-              4. What kind of opportunity are you most interested in right now?
+              4. What kind of opportunity are you most interested in right now? (select all that apply)
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {INTEREST_OPTIONS.map((opt) => (
                 <button
                   key={opt}
                   type="button"
-                  onClick={() => setInterestType(opt)}
+                  onClick={() => toggleInterestType(opt)}
                   disabled={saving}
+                  aria-pressed={interestTypes.includes(opt)}
                   className={`border rounded-md px-3 py-2.5 text-sm text-left transition-colors ${
-                    interestType === opt ? "border-ink bg-canvas text-ink" : "border-hairline text-charcoal hover:border-charcoal"
+                    interestTypes.includes(opt) ? "border-ink bg-canvas text-ink" : "border-hairline text-charcoal hover:border-charcoal"
                   }`}
                 >
                   {opt}
@@ -189,7 +228,6 @@ export default function StudentOnboarding() {
               id="highlight"
               type="text"
               maxLength={HIGHLIGHT_MAX}
-              placeholder="Built and shipped a full-stack app solo in my second year"
               value={highlight}
               onChange={(e) => setHighlight(e.target.value)}
               disabled={saving}

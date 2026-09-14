@@ -12,6 +12,11 @@ function normalizeSkillTags(value) {
   return [...new Set(value.map((s) => (typeof s === "string" ? s.trim() : "")).filter(Boolean))].slice(0, 3);
 }
 
+function normalizeInterestTypes(value) {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.filter((v) => INTEREST_TYPES.has(v)))];
+}
+
 // Shared by every route here: resolves the caller to a users row and
 // confirms it's a student — the questionnaire is student-only, and
 // req.user.role can't be trusted directly (see onboardingRoutes.js).
@@ -57,13 +62,14 @@ export const submitOnboarding = async (req, res) => {
     if (!user) return;
     const userId = user.id;
 
-    const { fieldOfStudy, confidentSkills, struggleSkills, interestType, highlight } = req.body ?? {};
+    const { fieldOfStudy, confidentSkills, struggleSkills, interestTypes, highlight } = req.body ?? {};
 
     if (!fieldOfStudy?.trim()) {
       return res.status(400).json({ error: "Field of study is required" });
     }
-    if (!INTEREST_TYPES.has(interestType)) {
-      return res.status(400).json({ error: "Please select a valid opportunity type" });
+    const normalizedInterestTypes = normalizeInterestTypes(interestTypes);
+    if (normalizedInterestTypes.length === 0) {
+      return res.status(400).json({ error: "Please select at least one opportunity type" });
     }
     if (highlight && highlight.length > 120) {
       return res.status(400).json({ error: "Highlight must be 120 characters or fewer" });
@@ -79,7 +85,7 @@ export const submitOnboarding = async (req, res) => {
           field_of_study: fieldOfStudy.trim(),
           confident_skills: normalizeSkillTags(confidentSkills),
           struggle_skills: normalizeSkillTags(struggleSkills),
-          interest_type: interestType,
+          interest_types: normalizedInterestTypes,
           highlight: highlight?.trim() || null,
           completed_at: completedAt,
         },
@@ -105,7 +111,7 @@ export const submitOnboarding = async (req, res) => {
         fieldOfStudy: response.field_of_study,
         confidentSkills: response.confident_skills,
         struggleSkills: response.struggle_skills,
-        interestType: response.interest_type,
+        interestTypes: response.interest_types,
         highlight: response.highlight,
       },
       completed: true,
@@ -149,7 +155,7 @@ export const getOnboardingResponse = async (req, res) => {
             fieldOfStudy: data.field_of_study,
             confidentSkills: data.confident_skills,
             struggleSkills: data.struggle_skills,
-            interestType: data.interest_type,
+            interestTypes: data.interest_types,
             highlight: data.highlight,
           }
         : null,

@@ -5,7 +5,19 @@ import { X } from "@phosphor-icons/react";
 // struggle skill questions. Suggestions come from the canonical assessable
 // skill list (same vocabulary skill_profile uses) but free text is always
 // allowed, so a skill missing from that list can still be added.
-export default function SkillTagInput({ value, onChange, suggestions = [], max = 3, placeholder = "Type a skill and press Enter" }) {
+//
+// dropdownOptions (optional) renders a separate <select> above the type-
+// ahead input — used for the confident-skills question to offer the basic
+// skills for the student's chosen field, without replacing free typing.
+export default function SkillTagInput({
+  value,
+  onChange,
+  suggestions = [],
+  dropdownOptions = [],
+  dropdownLabel = "Common skills for this field",
+  max = 3,
+  placeholder = "Type a skill and press Enter",
+}) {
   const [query, setQuery] = useState("");
 
   const filteredSuggestions = useMemo(() => {
@@ -46,6 +58,25 @@ export default function SkillTagInput({ value, onChange, suggestions = [], max =
           </span>
         ))}
       </div>
+
+      {value.length < max && dropdownOptions.length > 0 && (
+        <select
+          className="w-full border border-hairline rounded-md px-3 py-2.5 bg-bone focus:border-ink focus:ring-0 text-sm text-charcoal outline-none transition-colors mb-2"
+          value=""
+          onChange={(e) => addTag(e.target.value)}
+        >
+          <option value="" disabled>
+            {dropdownLabel}
+          </option>
+          {dropdownOptions
+            .filter((s) => !value.includes(s))
+            .map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+        </select>
+      )}
 
       {value.length < max && (
         <div className="relative">

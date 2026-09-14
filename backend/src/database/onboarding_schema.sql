@@ -14,7 +14,12 @@ CREATE TABLE IF NOT EXISTS onboarding_responses (
   -- same way, as plain strings.
   confident_skills JSONB NOT NULL DEFAULT '[]',
   struggle_skills JSONB NOT NULL DEFAULT '[]',
-  interest_type VARCHAR(50) NOT NULL CHECK (interest_type IN ('Internship', 'Full-time job', 'Apprenticeship', 'Learning program', 'Not sure yet')),
+  -- Array of 'Internship' | 'Full-time job' | 'Apprenticeship' | 'Learning
+  -- program' | 'Not sure yet' — a student can be interested in more than
+  -- one. Validated in onboardingController.js rather than a CHECK, same as
+  -- confident/struggle_skills, since Postgres CHECK can't easily constrain
+  -- every element of a JSONB array.
+  interest_types JSONB NOT NULL DEFAULT '[]',
   highlight VARCHAR(120),
   completed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
