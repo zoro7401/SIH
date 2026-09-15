@@ -4,7 +4,7 @@ import LoadingState from "../../components/common/LoadingState";
 import { getTargetRoleReadiness } from "../../services/careerRoleService";
 import { getSkillProfile } from "../../services/skillsService";
 import { aiAdvisorAPI } from "../../services/api";
-import { PaperPlaneRight, Sparkle, ShieldWarning } from "@phosphor-icons/react";
+import { PaperPlaneRight, Sparkle, ShieldWarning, Trash } from "@phosphor-icons/react";
 
 const SUGGESTED_PROMPTS = [
   "How ready am I for my target role?",
@@ -53,6 +53,7 @@ export default function AICareerAdvisor() {
   const [historyLoaded, setHistoryLoaded] = useState(false);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [clearing, setClearing] = useState(false);
   const [error, setError] = useState("");
   const scrollRef = useRef(null);
 
@@ -90,6 +91,23 @@ export default function AICareerAdvisor() {
     };
   };
 
+  const handleClearChat = async () => {
+    if (clearing || sending || messages.length === 0) return;
+    if (!window.confirm("Are you sure you want to clear your conversation history?")) return;
+
+    setClearing(true);
+    try {
+      await aiAdvisorAPI.clearHistory();
+      setMessages([]);
+      setError("");
+    } catch (err) {
+      console.error("Failed to clear chat history:", err);
+      setError("Failed to clear conversation history. Please try again.");
+    } finally {
+      setClearing(false);
+    }
+  };
+
   const sendMessage = async (text) => {
     const trimmed = text.trim();
     if (!trimmed || sending) return;
@@ -117,14 +135,28 @@ export default function AICareerAdvisor() {
 
   return (
     <DashboardLayout contentClassName="!max-w-3xl">
-      <header className="mb-6 border-b border-hairline pb-6">
-        <h1 className="font-geist text-3xl text-ink tracking-tight mb-1 flex items-center gap-2">
-          <Sparkle size={26} className="text-ink" weight="fill" />
-          AI Career Advisor
-        </h1>
-        <p className="text-muted">
-          Ask about your readiness, skill gaps, or what to do next — grounded in your real, verified profile.
-        </p>
+      <header className="mb-6 border-b border-hairline pb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="font-geist text-3xl text-ink tracking-tight mb-1 flex items-center gap-2">
+            <Sparkle size={26} className="text-ink" weight="fill" />
+            AI Career Advisor
+          </h1>
+          <p className="text-muted">
+            Ask about your readiness, skill gaps, or what to do next — grounded in your real, verified profile.
+          </p>
+        </div>
+        {messages.length > 0 && (
+          <button
+            type="button"
+            onClick={handleClearChat}
+            disabled={clearing || sending}
+            className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted hover:text-charcoal border border-hairline hover:border-charcoal/30 bg-white hover:bg-bone rounded-lg transition-colors disabled:opacity-50"
+            title="Clear conversation history"
+          >
+            <Trash size={14} />
+            {clearing ? "Clearing…" : "Clear Chat"}
+          </button>
+        )}
       </header>
 
       {loading && <LoadingState label="Loading your profile…" />}

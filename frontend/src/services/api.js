@@ -207,6 +207,7 @@ export const assessmentAPI = {
 // data instead of guessing.
 export const aiAdvisorAPI = {
   getHistory: () => request("/ai-advisor/history"),
+  clearHistory: () => request("/ai-advisor/history", { method: "DELETE" }),
   ask: async (message, context) => {
     const response = await fetch(`${API_BASE_URL}/ai-advisor/ask`, {
       method: "POST",
