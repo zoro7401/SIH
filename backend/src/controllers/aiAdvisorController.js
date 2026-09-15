@@ -1,5 +1,6 @@
 import { supabase } from "../config/supabase.js";
 import { resolveUserId } from "../utils/resolveUserId.js";
+import { generateEmbedding } from "../utils/generateEmbedding.js";
 
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
@@ -10,15 +11,18 @@ const GROQ_MODELS = (process.env.GROQ_MODELS || GROQ_MODEL)
   .map((model) => model.trim())
   .filter(Boolean);
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
-const FREE_OPENROUTER_MODELS = (process.env.OPENROUTER_MODELS || process.env.OPENROUTER_MODEL || [
+const DEFAULT_OPENROUTER_MODELS = [
   "nvidia/nemotron-3-super-120b-a12b:free",
   "deepseek/deepseek-r1-0528:free",
   "meta-llama/llama-3.3-70b-instruct:free",
   "google/gemma-3-27b-it:free",
-])
-  .split(",")
-  .map((model) => model.trim())
-  .filter((model) => model.endsWith(":free"));
+];
+const FREE_OPENROUTER_MODELS = (process.env.OPENROUTER_MODELS || process.env.OPENROUTER_MODEL)
+  ? (process.env.OPENROUTER_MODELS || process.env.OPENROUTER_MODEL)
+      .split(",")
+      .map((model) => model.trim())
+      .filter((model) => model.endsWith(":free"))
+  : DEFAULT_OPENROUTER_MODELS;
 const OPENROUTER_MODEL = FREE_OPENROUTER_MODELS[0] || "nvidia/nemotron-3-super-120b-a12b:free";
 
 // How many prior turns (user+assistant messages combined) to replay to
@@ -28,7 +32,9 @@ const HISTORY_TURNS = 8;
 
 const SYSTEM_PROMPT = `You are the AI Career Advisor inside SkillBridge, a student skill-and-placement platform.
 
-You are given the student's REAL current data: their verified skill profile, their selected target role and its readiness breakdown, and the specific skills they have vs. still need for that role. Never invent skills, scores, or roles that aren't in the provided data.
+You will receive two clearly labelled sections in every prompt:
+- "STUDENT'S VERIFIED DATA": the student's real, live data — readiness percentage, matched skills, missing skills, and their full verified score profile.
+- "RELEVANT KNOWLEDGE": general explanations of skills and career roles retrieved from the platform's knowledge base.
 
 Ground rules:
 - Be concise and encouraging, not generic. Reference the student's actual numbers (e.g. "You're at 72% readiness for Data Analyst").
@@ -36,7 +42,12 @@ Ground rules:
 - If they ask about a role that isn't in the provided target-role data, say you can only give a data-backed answer for a role they've selected as their target on the platform, and suggest they set it there first.
 - You RECOMMEND. You do not verify skills or make placement decisions — final verification always comes from real assessments, projects, or institution/industry review, not from you. Say this if it's relevant to the question.
 - Keep responses under ~180 words unless the student asks for more detail.
-- Reply in PLAIN TEXT only — no markdown (no **bold**, no # headers, no markdown bullet syntax). Use line breaks and plain "-" or numbered lists if you need structure; the UI renders your response as plain text exactly as written.`;
+- Reply in PLAIN TEXT only — no markdown (no **bold**, no # headers, no markdown bullet syntax). Use line breaks and plain "-" or numbered lists if you need structure; the UI renders your response as plain text exactly as written.
+
+RAG grounding rules (IMPORTANT):
+- Numeric or factual claims about THIS student (scores, readiness %, skill names, role) must come ONLY from the "STUDENT'S VERIFIED DATA" section. Never invent or modify these numbers.
+- The "RELEVANT KNOWLEDGE" section explains concepts, skills, and roles in general terms — use it to enrich explanations and first-step recommendations, but NEVER present it as a fact specific to this student.
+- If the retrieved knowledge does not clearly relate to the student's question, IGNORE IT entirely rather than forcing a connection.`;
 
 // GET /api/ai-advisor/history — the persisted conversation, oldest first, so
 // reopening /ai-advisor renders where the student left off instead of always
@@ -62,6 +73,29 @@ export const getConversationHistory = async (req, res) => {
     });
   } catch (error) {
     console.error("Get AI advisor history error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// DELETE /api/ai-advisor/history — clears all messages for the current user
+export const clearConversationHistory = async (req, res) => {
+  try {
+    const userId = await resolveUserId(req);
+    if (!userId) return res.status(404).json({ error: "User not found" });
+
+    const { error } = await supabase
+      .from("ai_advisor_messages")
+      .delete()
+      .eq("user_id", userId);
+
+    if (error) {
+      console.error("Clear AI advisor history error:", error);
+      return res.status(500).json({ error: "Failed to clear conversation history" });
+    }
+
+    res.status(200).json({ success: true, message: "Conversation history cleared" });
+  } catch (error) {
+    console.error("Clear AI advisor history error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -103,11 +137,61 @@ export const askCareerAdvisor = async (req, res) => {
 
     const history = (recentHistory ?? []).slice().reverse();
 
+    // ── RAG: embed question + retrieve top-4 knowledge base entries ──────────
+    let ragSection = "";
+    try {
+      const t0 = Date.now();
+      const questionEmbedding = await generateEmbedding(trimmedMessage);
+      const embedMs = Date.now() - t0;
+
+      const t1 = Date.now();
+      const { data: kbRows, error: kbError } = await supabase.rpc(
+        "match_advisor_knowledge",
+        {
+          query_embedding: questionEmbedding,
+          match_count: 4,
+        }
+      );
+      const searchMs = Date.now() - t1;
+
+      console.log(`[RAG] embed: ${embedMs}ms | search: ${searchMs}ms | total retrieval: ${embedMs + searchMs}ms`);
+
+      if (kbError) {
+        console.warn("[RAG] KB search error (degrading gracefully):", kbError.message);
+      } else if (kbRows && kbRows.length > 0) {
+        ragSection =
+          "\n\n=== RELEVANT KNOWLEDGE ===\n" +
+          kbRows
+            .map((row) => `[${row.skill_or_role_name}]: ${row.content}`)
+            .join("\n\n");
+      }
+    } catch (ragErr) {
+      // RAG failure is non-fatal — advisor still answers from verified student data
+      console.warn("[RAG] Retrieval failed (degrading gracefully):", ragErr.message);
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     const contextSummary = buildContextSummary(context);
-    const prompt = `Student's current data:\n${contextSummary}\n\nStudent's question:\n${trimmedMessage}`;
-    const { reply, error: upstreamError } = await callGemini(apiKey, prompt, history);
+    const prompt =
+      `=== STUDENT'S VERIFIED DATA ===\n${contextSummary}` +
+      ragSection +
+      `\n\nStudent's question:\n${trimmedMessage}`;
+
+    let reply = null;
+    let upstreamError = null;
+
+    if (apiKey) {
+      ({ reply, error: upstreamError } = await callGemini(apiKey, prompt, history));
+    }
+
+    const groqKey = process.env.GROQ_API_KEY;
+    if (!reply && groqKey) {
+      console.warn("[AI Advisor] Gemini unavailable, falling back to Groq. Upstream error:", upstreamError);
+      ({ reply, error: upstreamError } = await callGroqAdvisor(groqKey, prompt, history));
+    }
+
     if (!reply) {
-      console.error("Gemini request failed:", upstreamError);
+      console.error("All AI Advisor providers failed:", upstreamError);
       return res.status(502).json({ error: "AI Career Advisor is temporarily unavailable. Please try again in a moment." });
     }
 
@@ -563,7 +647,7 @@ function parseRoadmap(content) {
   }
 }
 
-async function callGemini(apiKey, prompt) {
+async function callGemini(apiKey, prompt, history = []) {
   try {
     // Prior turns come first (each mapped to Gemini's role names — its API
     // uses "model" for the assistant, not "assistant"), then the current
@@ -575,32 +659,87 @@ async function callGemini(apiKey, prompt) {
       { role: "user", parts: [{ text: prompt }] },
     ];
 
-    const response = await fetch(
-      `${GEMINI_API_URL}/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents,
-          generationConfig: { temperature: 0.4, maxOutputTokens: 500 },
-        }),
-      }
+    const candidateModels = [GEMINI_MODEL, "gemini-3.6-flash"].filter(
+      (m, i, arr) => arr.indexOf(m) === i
     );
 
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => "");
-      return { reply: null, error: `${response.status}: ${errorText.slice(0, 300)}` };
+    let lastError = null;
+    for (const model of candidateModels) {
+      const response = await fetch(
+        `${GEMINI_API_URL}/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            contents,
+            generationConfig: { temperature: 0.4, maxOutputTokens: 1500 },
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const reply = data?.candidates?.[0]?.content?.parts
+          ?.map((part) => part.text)
+          .filter(Boolean)
+          .join("\n")
+          .trim();
+
+        if (reply) return { reply };
+      } else {
+        const errorText = await response.text().catch(() => "");
+        lastError = `${response.status}: ${errorText.slice(0, 300)}`;
+      }
     }
 
-    const data = await response.json();
-    const reply = data?.candidates?.[0]?.content?.parts
-      ?.map((part) => part.text)
-      .filter(Boolean)
-      .join("\n")
-      .trim();
+    return { reply: null, error: lastError || "Gemini returned an empty response" };
+  } catch (error) {
+    return { reply: null, error: error.message };
+  }
+}
 
-    return reply ? { reply } : { reply: null, error: "Gemini returned an empty response" };
+async function callGroqAdvisor(apiKey, prompt, history = []) {
+  try {
+    const messages = [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...history.map((m) => ({ role: m.role, content: m.content })),
+      { role: "user", content: prompt },
+    ];
+
+    const modelsToTry = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b", "groq/compound-mini"];
+    let lastError = null;
+
+    for (const model of modelsToTry) {
+      try {
+        const response = await fetch(GROQ_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model,
+            messages,
+            temperature: 0.4,
+            max_tokens: 1000,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const reply = data?.choices?.[0]?.message?.content?.trim();
+          if (reply) return { reply };
+        } else {
+          const errText = await response.text().catch(() => "");
+          lastError = `${model} ${response.status}: ${errText.slice(0, 200)}`;
+        }
+      } catch (err) {
+        lastError = `${model}: ${err.message}`;
+      }
+    }
+
+    return { reply: null, error: lastError || "Groq models failed to return a response" };
   } catch (error) {
     return { reply: null, error: error.message };
   }
